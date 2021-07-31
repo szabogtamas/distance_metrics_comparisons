@@ -19,5 +19,15 @@ ENV PATH=/usr/local/bin:$PATH
 
 ADD ./notebooks /usr/local/notebooks
 
+RUN install2.r --error \
+    --deps TRUE \
+    devtools \
+    rlang \
+    optparse \
+    docstring \
+    plotly \
+    heatmaply \
+    openxlsx
+
 RUN chmod a+rwx -R /home/rstudio
 ADD ./configs/rstudio-prefs.json /home/rstudio/.config/rstudio/rstudio-prefs.json
