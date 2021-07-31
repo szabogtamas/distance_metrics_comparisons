@@ -15,8 +15,6 @@ RUN pip3 install numpy && \
     pip3 install scipy && \
     pip3 install scikit-learn
 
-ENV PATH=/usr/local/bin:$PATH
-
 ADD ./notebooks /usr/local/notebooks
 
 RUN install2.r --error \
