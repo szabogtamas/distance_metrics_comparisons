@@ -1,0 +1,21 @@
+---
+title: "`r params$report_title`"
+author: "`r params$report_author`"
+date: "`r params$report_time`"
+output:
+  html_document:
+    toc: True
+params:
+  report_title: "Show transcript feature types for a single sample"
+  report_author: "Anonymus"
+  report_time: !r format(Sys.Date(), format="%d/%m/%Y")
+  input_path: "/home/rstudio/local_files/example_data/pseudo_table_format.csv"
+---
+
+## Setup
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(tibble)
+```
