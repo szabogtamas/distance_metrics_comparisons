@@ -20,9 +20,12 @@ library(tibble)
 ```
 
 ```{r}
-entities <- paste("e", seq(10000, 30000), sep="_")
-cat_labels <- paste("e", seq(1000, 2000), sep="_")
-example_df <- data.frame(Entity = entities)
+example_df <- data.frame(Entity = paste("e", seq(10001, 30000), sep="_"))
+
+for(cl in paste("cat", seq(1000, 1050), sep="_")){
+  example_df[[cl]] <- sample(c(0, 1), 20000, replace=TRUE)
+}
+
 head(example_df)
 ```
 
