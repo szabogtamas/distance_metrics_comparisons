@@ -31,4 +31,12 @@ example_df <- tibble::column_to_rownames(example_df, "Entity")
 head(example_df)
 ```
 
+```{r}
+distmat <- dist(example_df, method="binary")
+head(distmat)
+```
+
+```{r}
+
+```
 
