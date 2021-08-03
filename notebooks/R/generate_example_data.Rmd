@@ -1,0 +1,30 @@
+---
+title: "`r params$report_title`"
+author: "`r params$report_author`"
+date: "`r params$report_time`"
+output:
+  html_document:
+    toc: True
+params:
+  report_title: "Generate example data"
+  report_author: "Anonymus"
+  report_time: !r format(Sys.Date(), format="%d/%m/%Y")
+---
+
+## Setup
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(tibble)
+```
+
+```{r}
+entities <- paste("e", seq(10000, 30000), sep="_")
+cat_labels <- paste("e", seq(1000, 2000), sep="_")
+example_df <- data.frame(Entity = entities)
+head(example_df)
+```
+
+
+
