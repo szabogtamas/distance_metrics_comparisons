@@ -84,6 +84,22 @@ Manually collected input might be in the format of list of lists, forming a
 pseudo-table. The information here only shows the 1-encoded relationships.
 
 ```{r}
-
+ll_format_df <- long_df %>%
+  group_by(Entity) %>%
+  mutate(Labels = paste(Label, collapse=";")) %>%
+  ungroup() %>%
+  distinct(Entity, Labels)
 ```
 
+```{r}
+head(ll_format_df)
+```
+
+Save the generated toy data in the above format as well:
+
+```{r}
+write.csv(
+  ll_format_df, file.path(params$output_folder, "list_of_lists_format.csv"),
+  row.names=FALSE
+)
+```
