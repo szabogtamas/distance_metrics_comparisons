@@ -61,8 +61,21 @@ This way it is easier to show what we have in our dataframe:
 head(long_df)
 ```
 
+Save the generated toy data in long format as well:
 
+```{r}
+write.csv(
+  example_df, file.path(params$output_folder, "long_format_category_labels.csv"),
+  row.names=FALSE
+)
+```
 
+### List of lists format input
 
+Manually collected input might be in the format of list of lists, forming a
+pseudo-table.
 
+```{r}
+
+```
 
