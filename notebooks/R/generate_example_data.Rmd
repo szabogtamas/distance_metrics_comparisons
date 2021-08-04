@@ -52,7 +52,15 @@ The large number of columns is not optimal for R to handle data. One possible wa
 to make the data tidier is to reshape it into long format.
 
 ```{r}
-long_df <- pivot_longer(example_df, -Entity)
+long_df <- example_df %>%
+  pivot_longer(example_df, -Entity) %>%
+  dplyr::filter(value == 1) %>%
+  rename(Label = name) %>%
+  select(-value)
+```
+
+```{r}
+long_df <- long_df 
 ```
 
 This way it is easier to show what we have in our dataframe:
@@ -65,7 +73,7 @@ Save the generated toy data in long format as well:
 
 ```{r}
 write.csv(
-  example_df, file.path(params$output_folder, "long_format_category_labels.csv"),
+  long_df, file.path(params$output_folder, "long_format_category_labels.csv"),
   row.names=FALSE
 )
 ```
@@ -73,7 +81,7 @@ write.csv(
 ### List of lists format input
 
 Manually collected input might be in the format of list of lists, forming a
-pseudo-table.
+pseudo-table. The information here only shows the 1-encoded relationships.
 
 ```{r}
 
