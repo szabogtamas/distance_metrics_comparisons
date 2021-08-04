@@ -9,6 +9,7 @@ params:
   report_title: "Generate example data"
   report_author: "Anonymus"
   report_time: !r format(Sys.Date(), format="%d/%m/%Y")
+  output_folder: "/home/rstudio/local_files/example_data"
 ---
 
 ## Setup
@@ -19,24 +20,49 @@ library(tidyr)
 library(tibble)
 ```
 
+## Generate toy data
+
+### One-hot-encoded format
+
+To generate a dataset with close to realistic dimensions, 20 000 entities are
+linked to 5000 distinct labels randomly.  
+Labels will be one-hot-encoded, where 1 in the matrix means the labels is associated
+with the entity and 0 means it is not.
+
 ```{r}
 example_df <- data.frame(Entity = paste("e", seq(1001, 3000), sep="_"))
 
-for(cl in paste("cat", seq(1000, 1050), sep="_")){
+for(cl in paste("cat", seq(1001, 1050), sep="_")){
   example_df[[cl]] <- sample(c(0, 1), 2000, replace=TRUE)
 }
-
-example_df <- tibble::column_to_rownames(example_df, "Entity")
-
-head(example_df)
 ```
+
+Save the generated toy data in this native format:
 
 ```{r}
-distmat <- dist(example_df, method="binary")
-head(distmat)
+write.csv(
+  example_df, file.path(params$output_folder, "onehot_encoded_matrix.csv"),
+  row.names=FALSE
+)
 ```
+
+### Conversion to long format
+
+The large number of columns is not optimal for R to handle data. One possible way
+to make the data tidier is to reshape it into long format.
 
 ```{r}
-
+long_df <- pivot_longer(example_df, -Entity)
 ```
+
+This way it is easier to show what we have in our dataframe:
+
+```{r}
+head(long_df)
+```
+
+
+
+
+
 
