@@ -42,6 +42,17 @@ if (params$input_format == "pseudo_tab") {
 }
 ```
 
+### Reshape if nested list
+
+Data might come as list of lists, so those lists have to be unnested.
+
+```{r}
+if (params$input_format == "nested") {
+  in_tab[[2]] <- strsplit(in_tab[[2]], ";")
+  colnames(in_tab <- c("Entity", "Label"))
+  main_tab <- unnest(in_tab)
+}
+```
 
 ## Create distance matrix
 
