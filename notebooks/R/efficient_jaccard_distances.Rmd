@@ -50,7 +50,7 @@ Data might come as list of lists, so those lists have to be unnested.
 if (params$input_format == "nested") {
   in_tab[[2]] <- strsplit(in_tab[[2]], ";")
   colnames(in_tab <- c("Entity", "Label"))
-  main_tab <- unnest(in_tab)
+  main_tab <- unnest(in_tab, Label)
 }
 ```
 
@@ -66,14 +66,52 @@ if (params$input_format == "long") {
 
 ```{r}
 if (params$input_format %in% c("long", "nested", "pseudo_tab")) {
-  main_matrix <- pivot_wider(main_tab)
+  main_matrix <- main_tab %>%
+    mutate(value = 1) %>%
+    pivot_wider(names_from=Label, values_fill=0) %>%
+    column_to_rownames("Entity")
 } else {
-  main_matrix <- in_tab
+  main_matrix <- column_to_rownames(in_tab, "Entity")
 }
+
+main_matrix[seq(1, 5), seq(1, 5)]
 ```
 
 ## Create distance matrix
 
+Under the present circumstances, the ***binary*** method of the base-R dist function
+is equivalent to creating Jaccard's distances.
+
 ```{r}
-distmat <- dist(example_df, method="binary")
+distmat <- dist(main_matrix, method="binary")
+
+dist_tab <- distmat %>%
+  {1 - .} %>%
+  as.matrix() %>%
+  data.frame() %>%
+  rownames_to_column("Entity")
+
+dist_tab[seq(1, 5), seq(1, 5)]
 ```
+
+This can directly be saved after converting it to a table
+
+```{r}
+write.csv(
+  dist_tab, file.path(params$output_folder, "distance_matrix.csv"),
+  row.names=FALSE
+)
+```
+
+Perhaps a better means of data representation is a long format
+
+```{r}
+dist_tab %>%
+  pivot_longer(-Entity, values_to="Similarity", names_to="Pair") %>%
+  filter(Entity != Pair) %>%
+  write.csv(
+    file.path(params$output_folder, "distance_matrix.csv"), row.names=FALSE
+  )
+```
+
+## Visualization options
