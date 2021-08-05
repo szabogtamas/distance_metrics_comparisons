@@ -17,7 +17,7 @@ params:
 ```{r}
 library(dplyr)
 library(tidyr)
-library(tibble)
+library(purrr)
 ```
 
 ## Generate toy data
@@ -59,10 +59,6 @@ long_df <- example_df %>%
   select(-value)
 ```
 
-```{r}
-long_df <- long_df 
-```
-
 This way it is easier to show what we have in our dataframe:
 
 ```{r}
@@ -100,6 +96,34 @@ Save the generated toy data in the above format as well:
 ```{r}
 write.csv(
   ll_format_df, file.path(params$output_folder, "list_of_lists_format.csv"),
+  row.names=FALSE
+)
+```
+
+### Pseudo-tabular input
+
+```{r}
+N_top_label <- n_distinct(long_df$Label)
+
+top_up_row <- function(x) {
+  cat_labels <- unlist(strsplit(x, ";"))
+  N_missing <- N_top_label - length(cat_labels)
+  c(cat_labels, rep(NA, N_missing))
+}
+
+pseudo_tab_df <- ll_format_df %>%
+  .$Labels %>%
+  setNames(ll_format_df$Entity) %>%
+  map(top_up_row) %>%
+  data.frame()
+
+pseudo_tab_df[seq(1, 5), seq(1, 5)]
+```
+Save this last format as well:
+
+```{r}
+write.csv(
+  pseudo_tab_df, file.path(params$output_folder, "pseudo_tabular_format.csv"),
   row.names=FALSE
 )
 ```
