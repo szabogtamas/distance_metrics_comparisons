@@ -54,6 +54,24 @@ if (params$input_format == "nested") {
 }
 ```
 
+### Pivot wider after coercing to long format
+
+Long format data has to cast into a one-hot encoded matrix..
+
+```{r}
+if (params$input_format == "long") {
+  main_tab <- in_tab
+}
+```
+
+```{r}
+if (params$input_format %in% c("long", "nested", "pseudo_tab")) {
+  main_matrix <- pivot_wider(main_tab)
+} else {
+  main_matrix <- in_tab
+}
+```
+
 ## Create distance matrix
 
 ```{r}
