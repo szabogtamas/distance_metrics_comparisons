@@ -15,7 +15,9 @@ RUN pip3 install numpy && \
     pip3 install scipy && \
     pip3 install scikit-learn
 
+ADD ./scripts /usr/local/dev_scripts
 ADD ./notebooks /usr/local/notebooks
+ADD ./example_data /usr/local/example_data
 
 RUN install2.r --error \
     --deps TRUE \
