@@ -98,7 +98,7 @@ This can directly be saved after converting it to a table
 
 ```{r}
 write.csv(
-  dist_tab, file.path(params$output_folder, "distance_matrix.csv"),
+  dist_tab, file.path(params$output_folder, "jaccard_similarity_matrix.csv"),
   row.names=FALSE
 )
 ```
@@ -110,7 +110,7 @@ dist_tab %>%
   pivot_longer(-Entity, values_to="Similarity", names_to="Pair") %>%
   filter(Entity != Pair) %>%
   write.csv(
-    file.path(params$output_folder, "distance_matrix.csv"), row.names=FALSE
+    file.path(params$output_folder, "jaccard_similarity_links.csv"), row.names=FALSE
   )
 ```
 
