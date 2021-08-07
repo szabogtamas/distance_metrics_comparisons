@@ -10,7 +10,7 @@ params:
   report_author: "Anonymus"
   report_time: !r format(Sys.Date(), format="%d/%m/%Y")
   input_format: "pseudo_tab"
-  input_path: "/home/rstudio/local_files/example_data/pseudo_tabular_format.csv"
+  input_path: "/usr/local/example_data/pseudo_tabular_format.csv"
   output_folder: "."
 ---
 
