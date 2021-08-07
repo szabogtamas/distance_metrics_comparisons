@@ -74,10 +74,19 @@ standardize_input_data <- function(input_path, data_format){
         dplyr::filter(!is.na(Label))
   }
 
-  if (params$input_format == "nested") {
+  if (data_format == "nested") {
     in_tab[[2]] <- strsplit(in_tab[[2]], ";")
     colnames(in_tab <- c("Entity", "Label"))
     in_tab <- unnest(in_tab, Label)
+  }
+
+  if (data_format %in% c("long", "nested", "tabular")) {
+  in_tab <- in_tab %>%
+    mutate(value = 1) %>%
+    pivot_wider(names_from=Label, values_fill=0) %>%
+    column_to_rownames("Entity")
+  } else {
+    in_tab <- column_to_rownames(in_tab, "Entity")
   }
 
   return(in_tab)
