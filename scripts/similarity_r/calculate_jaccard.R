@@ -57,27 +57,25 @@ main <- function(opt){
 
 
 
-#' Remove custom argument features that are not understood by arg_parse.
+#' Convert input data from the accepted formats to a stadard binarized matrix.
 #' 
-#' @param parser object.  An arg_parse parser instance.
-#' @param arg_defs list.  Argument definitions at the beginning of the script.
+#' @param input_path string.  Path to inpu file.
+#' @param data_format string. Format of data in the input. Possible values are [long, tabular, nested, binary].
 #' 
-#' @return list.
-parser4arglist <- function(parser, arg_defs){
-  for (al in arg_defs){
-    for (rgn in names(al)){
-      rg <- al[[rgn]]
-      rga <- paste0("--", rgn)
-      if ("abbr" %in% names(rg) ) {
-        rga <- c(rg[["abbr"]], rga)
-        rg[["abbr"]] <- NULL
-      }
-      rl <- list(parser, rga)
-      rl <- c(rl, rg)
-      parser <- do.call(add_option, rl)
-    }
+#' @return matrix.
+standardize_input_data <- function(input_path, data_format){
+
+  in_tab <- read.csv(input_path)
+
+  if (data_format == "pseudo_tab") {
+    in_tab <- in_tab %>%
+        pivot_longer(everything()) %>%
+        rename(Entity = name, Label = value) %>%
+        dplyr::filter(!is.na(Label))
   }
-  invisible(parser)
+
+  
+  return(in_tab)
 }
 
 ####    Intarfacing with command line below, nothing related to the main functionality    ####
