@@ -67,14 +67,19 @@ standardize_input_data <- function(input_path, data_format){
 
   in_tab <- read.csv(input_path)
 
-  if (data_format == "pseudo_tab") {
+  if (data_format == "tabular") {
     in_tab <- in_tab %>%
         pivot_longer(everything()) %>%
         rename(Entity = name, Label = value) %>%
         dplyr::filter(!is.na(Label))
   }
 
-  
+  if (params$input_format == "nested") {
+    in_tab[[2]] <- strsplit(in_tab[[2]], ";")
+    colnames(in_tab <- c("Entity", "Label"))
+    in_tab <- unnest(in_tab, Label)
+  }
+
   return(in_tab)
 }
 
