@@ -18,10 +18,12 @@ scriptMandatoryArgs <- list(
 
 scriptOptionalArgs <- list(
   inFormat = list(
+    abbr="-f",
     default="long",
     help="Format of data in the input. Possible values are [long, tabular, nested, binary]."
   ),
   outPath = list(
+    abbr="-o",
     default="jaccard_similarity.csv",
     help="Path to output table capturing similarities."
   )
