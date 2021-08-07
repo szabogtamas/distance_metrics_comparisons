@@ -35,6 +35,7 @@ for (pk in c("tidyr", "dplyr")){
   }
 }
 
+
 #' The main function of the script, executed only if called from command line.
 #' Calls subfunctions according to supplied command line arguments.
 #' 
@@ -54,7 +55,6 @@ main <- function(opt){
 
   invisible(NULL)
 }
-
 
 
 #' Convert input data from the accepted formats to a stadard binarized matrix.
@@ -91,6 +91,21 @@ standardize_input_data <- function(input_path, data_format){
 
   return(in_tab)
 }
+
+
+#' Calculate Jaccard similarities from a stadard binarized matrix.
+#' 
+#' @param hot_matrix matrux.  Input in banarized (one-hot-encoded) format.
+#'  
+#' @return matrix.
+calculate_jaccard <- function(hot_matrix){
+  hot_matrix %>%
+    {1 - .} %>%
+    as.matrix() %>%
+    data.frame() %>%
+    rownames_to_column("Entity")
+}
+
 
 ####    Intarfacing with command line below, nothing related to the main functionality    ####
 
