@@ -28,9 +28,9 @@ import sklearn as sk
 ```
 
 ```python
-#sys.path.append("/usr/local/dev_scripts")
+sys.path.append("/usr/local/dev_scripts")
 
-#import parallel_jaccard
+import similarity_utils as su
 ```
 
 ## Parse input
