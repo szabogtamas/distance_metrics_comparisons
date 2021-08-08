@@ -27,7 +27,8 @@ RUN install2.r --error \
     docstring \
     plotly \
     heatmaply \
-    openxlsx
+    openxlsx \
+    umap
 
 RUN chmod a+rwx -R /home/rstudio
 ADD ./configs/rstudio-prefs.json /home/rstudio/.config/rstudio/rstudio-prefs.json
