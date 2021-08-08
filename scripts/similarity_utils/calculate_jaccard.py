@@ -36,7 +36,7 @@ def jaccard_scikit(
 
     sim_mat = skm.pairwise.pairwise_distances(binarized_df.to_numpy(), metric="jaccard")
 
-    return sim_mat 
+    return 1 - sim_mat 
 
 
 def jaccard_loop(
@@ -61,9 +61,8 @@ def jaccard_loop(
             distances.append((n1, n2, ds))
 
     sim_mat = pd.DataFrame(sim_mat)
-    sim_mat.head()
 
-    return sim_mat
+    return 1 - sim_mat
 
 
 def calculate_jaccard(
