@@ -2,10 +2,11 @@
 
 import argparse
 import pandas as pd
+from scipy.spatial import distance as scd
 from sklearn import metrics as skm
 
 parser = argparse.ArgumentParser(
-    description = "Calculate Jaccard distances with different approches"
+    description = "Calculate Jaccard distances with different approches."
 )
 parser.add_argument(  
     "input_path"
@@ -79,7 +80,7 @@ def jaccard_loop(
 
     for n1 in instances:
         for n2 in instances:
-            ds = skm.pairwise.distance.jaccard(binarized_martix[n1], binarized_martix[n2])
+            ds = scd.jaccard(binarized_martix[n1], binarized_martix[n2])
             distances.append((n1, n2, ds))
 
     sim_mat = pd.DataFrame(sim_mat)
