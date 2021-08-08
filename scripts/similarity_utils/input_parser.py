@@ -53,6 +53,27 @@ def binarize_tabular(
     return binarized_data
 
 
+def binarize_long(
+    in_tab: pd.DataFrame
+) -> pd.DataFrame:
+    """
+    Take a long format input of category labels and convert it to a binarized matrix.
+    ----------
+    in_tab
+        Long foormat data with two colums: entity and its category.
+    Returns
+    -------
+    The binarized matrix.
+    """
+
+    in_tab = in_tab.iloc[:,0:2]
+    in_tab.columns = ["Entity", "Label"]
+    in_tab["val"] = 1
+    in_tab.pivot(index="Entity", columns="Label").fillna(0)
+
+    return in_tab
+
+
 def read_input(
     input_martix: pd.DataFrame,
     format_spec: str = "pseudo_tab"
