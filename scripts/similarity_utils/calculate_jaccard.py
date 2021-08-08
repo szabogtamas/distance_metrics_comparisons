@@ -2,6 +2,7 @@
 
 import argparse
 import pandas as pd
+from sklearn import metrics as skm
 
 parser = argparse.ArgumentParser(
     description = "Calculate Jaccard distances with different approches"
@@ -17,7 +18,25 @@ parser.add_argument(
     type = argparse.FileType('w'),
     help = "Path to output file"
 )
-args = parser.parse_args() 
+args = parser.parse_args()
+
+
+def jaccard_scikit(
+    binarized_martix: pd.DataFrame
+) -> pd.DataFrame:
+    """
+    The native scikit function to calculate Jaccard similarity.
+    ----------
+    binarized_martix
+        A binarized matrix with category labels in columns and entities in rows.
+    Returns
+    -------
+    The similarity matrix.
+    """
+
+    sim_mat = skm.pairwise.pairwise_distances(binarized_df.to_numpy(), metric="jaccard")
+
+    return sim_mat 
 
 
 def jaccard_loop(
@@ -44,7 +63,7 @@ def jaccard_loop(
     sim_mat = pd.DataFrame(sim_mat)
     sim_mat.head()
 
-    return sim_mat 
+    return sim_mat
 
 
 def calculate_jaccard(
