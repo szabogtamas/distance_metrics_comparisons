@@ -4,6 +4,7 @@ import argparse
 import pandas as pd
 from scipy.spatial import distance as scd
 from sklearn import metrics as skm
+from . import input_parser
 
 parser = argparse.ArgumentParser(
     description = "Calculate Jaccard distances with different approches."
@@ -121,7 +122,8 @@ def calculate_jaccard(
 def main(
     input_path: str,
     output_path: str = "jaccard_similarity_matrix.csv",
-    approach: str = "scikit"
+    approach: str = "scikit",
+    format_spec: str = "pseudo_tab"
 ) -> None:
     """
     A high-level wrapper around Jaccard calculator functions.
@@ -132,12 +134,14 @@ def main(
         Path to save output to.
     approach
         Which approach to use for calculations. One of ["scikit", "loop", "pandas"]
+    format_spec
+        Specifies the format of input data. One of ["pseudo_tab", "long", "binary"]
     Returns
     -------
     None
     """
 
-    scores = pd.read_csv(input_path)
+    scores = input_parser.read_input(input_path, format_spec=format_spec)
     sim_mat = calculate_jaccard(scores, approach=approach)
     sim_mat.write_csv(output_path)
     return
