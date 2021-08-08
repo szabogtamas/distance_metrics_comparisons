@@ -36,40 +36,25 @@ import similarity_utils as su
 ## Parse input
 
 ```python
-main_df = pd.read_csv("/home/rstudio/local_files/example_data/pseudo_tabular_format.csv")
+main_df = suinput_parser.read_input("/home/rstudio/local_files/example_data/pseudo_tabular_format.csv")
 main_df.head()
-```
-
-Create an intermedier data representation corresponding to a dictionary
-
-```python
-d = main_df.to_dict(orient="series")
-d = {k: v.dropna().apply(lambda x: "HP:" + str(x).split(".")[0]).tolist() for k, v in d.items()}
-```
-
-Convert the data into a binarized (one-hot-encoded) format
-
-```python
-binarized_data = dict()
-for k, v in d.items():
-    binarized_data[k] = [1 if e in v else 0 for e in all_items]
-binarized_df = pd.DataFrame(binarized_data)
-binarized_df.head()
 ```
 
 ## Calculate distances
 
 ```python
-distances = list()
-instances = list(binarized_df.columns)
+%time loop_distances = calculate_jaccard(main_df, "loop")
+loop_distances.head()
+```
 
-for n1 in instances:
-    for n2 in instances:
-        ds = skm.pairwise.distance.jaccard(binarized_df[n1], binarized_df[n2])
-        distances.append((n1, n2, ds))
+```python
+%time pandas_distances = calculate_jaccard(main_df, "pandas")
+pandas_distances.head()
+```
 
-distances = pd.DataFrame(distances)
-distances.head()
+```python
+%time scikit_distances = calculate_jaccard(main_df)
+scikit_distances.head()
 ```
 
 ## Visualize results
