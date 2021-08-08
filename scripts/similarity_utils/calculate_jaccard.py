@@ -105,6 +105,7 @@ def calculate_jaccard(
 
     fun_router = dict(
         scikit = jaccard_scikit,
+        pandas = jaccard_pandas,
         loop = jaccard_loop
     )
 
