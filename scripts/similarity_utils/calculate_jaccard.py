@@ -34,10 +34,31 @@ def jaccard_scikit(
     The similarity matrix.
     """
 
-    sim_mat = skm.pairwise.pairwise_distances(binarized_df.to_numpy(), metric="jaccard")
+    sim_mat = skm.pairwise.pairwise_distances(
+        binarized_martix.to_numpy(), metric="jaccard"
+    )
     sim_mat = pd.DataFrame(sim_mat)
 
-    return 1 - sim_mat 
+    return 1 - sim_mat
+
+
+def jaccard_pandas(
+    binarized_martix: pd.DataFrame
+) -> pd.DataFrame:
+    """
+    Hijacking the pairwise correlation tool of pandas to calculate jaccard score.
+    ----------
+    binarized_martix
+        A binarized matrix with category labels in columns and entities in rows.
+    Returns
+    -------
+    The similarity matrix.
+    """
+
+    sim_mat = binarized_martix.corr(method=skm.pairwise.distance.jaccard)
+    sim_mat = pd.DataFrame(sim_mat)
+
+    return 1 - sim_mat
 
 
 def jaccard_loop(
