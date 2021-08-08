@@ -20,6 +20,33 @@ parser.add_argument(
 args = parser.parse_args() 
 
 
+def jaccard_loop(
+    binarized_martix: pd.DataFrame
+) -> pd.DataFrame:
+    """
+    A simple and non-efficient function calculating Jaccard similarity using for loops.
+    ----------
+    binarized_martix
+        A binarized matrix with category labels in columns and entities in rows.
+    Returns
+    -------
+    The similarity matrix.
+    """
+
+    sim_mat = list()
+    instances = list(binarized_martix.columns)
+
+    for n1 in instances:
+        for n2 in instances:
+            ds = skm.pairwise.distance.jaccard(binarized_martix[n1], binarized_martix[n2])
+            distances.append((n1, n2, ds))
+
+    sim_mat = pd.DataFrame(sim_mat)
+    sim_mat.head()
+
+    return sim_mat 
+
+
 def calculate_jaccard(
     binarized_martix: pd.DataFrame,
     approach: str = "scikit"
@@ -36,16 +63,15 @@ def calculate_jaccard(
     The similarity matrix.
     """
 
-    sim_mat = list()
-    instances = list(binarized_martix.columns)
+    fun_router = dict(
+        scikit = jaccard_scikit,
+        loop = jaccard_loop
+    )
 
-    for n1 in instances:
-        for n2 in instances:
-            ds = skm.pairwise.distance.jaccard(binarized_martix[n1], binarized_martix[n2])
-            distances.append((n1, n2, ds))
+    if approach not in fun_router:
+        approach = "scikit"
 
-    sim_mat = pd.DataFrame(sim_mat)
-    sim_mat.head()
+    sim_mat = fun_router[aproach](binarized_martix)
 
     return sim_mat
 
