@@ -34,7 +34,7 @@ def binarize_tabular(
     """
 
     # Convert input to a dictionary to enable removing NA links
-    d = ex_df.to_dict(orient="series")
+    d = in_tab.to_dict(orient="series")
     d = {k: v.dropna().tolist() for k, v in d.items()}
     # d = {k: v.dropna().apply(lambda x: "HP:" + str(x).split(".")[0]).tolist() for k, v in d.items()}
 
