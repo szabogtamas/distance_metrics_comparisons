@@ -35,6 +35,7 @@ def jaccard_scikit(
     """
 
     sim_mat = skm.pairwise.pairwise_distances(binarized_df.to_numpy(), metric="jaccard")
+    sim_mat = pd.DataFrame(sim_mat)
 
     return 1 - sim_mat 
 
