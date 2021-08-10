@@ -10,11 +10,27 @@ parser = argparse.ArgumentParser(
     description = "Calculate Jaccard distances with different approches."
 )
 parser.add_argument(  
-    "input_path"
-    type = str,
+    "-i",
+    "--input_path",
+    type = str, required=True,
     help = "Path to input data"
 )
+parser.add_argument(  
+    "-f",
+    "--format_spec",
+    default = "pseudo_tab",
+    type = str,
+    help = "Format of input data"
+)
+parser.add_argument(  
+    "-m",
+    "--approach",
+    default = "scikit",
+    type = str,
+    help = "Implementation approach to use"
+)
 parser.add_argument(
+    "-o",
     "--output_path",
     default = sys.stdout,
     type = argparse.FileType('w'),
@@ -148,4 +164,4 @@ def main(
 
 
 if __name__ == '__main__':
-    main()
+    main(**args)
