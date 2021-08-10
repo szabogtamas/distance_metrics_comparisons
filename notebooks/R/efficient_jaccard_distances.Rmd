@@ -6,7 +6,7 @@ output:
   html_document:
     toc: True
 params:
-  report_title: "Show transcript feature types for a single sample"
+  report_title: "Calculate Jaccard similarty of entities with labels"
   report_author: "Anonymus"
   report_time: !r format(Sys.Date(), format="%d/%m/%Y")
   input_format: "pseudo_tab"
@@ -120,7 +120,7 @@ write.csv(
 Perhaps a better means of data representation is a long format
 
 ```{r}
-simt_tab %>%
+sim_tab %>%
   pivot_longer(-Entity, values_to="Similarity", names_to="Pair") %>%
   filter(Entity != Pair) %>%
   write.csv(
