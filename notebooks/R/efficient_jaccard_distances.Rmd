@@ -93,19 +93,26 @@ is equivalent to creating Jaccard's distances.
 distmat <- dist(main_matrix, method="binary")
 
 dist_tab <- distmat %>%
-  {1 - .} %>%
   as.matrix() %>%
   data.frame() %>%
   rownames_to_column("Entity")
 
-dist_tab[seq(1, 5), seq(1, 5)]
+dist_tab[1:5, 1:6]
 ```
+The distance matrix can be converted into a similarity matrix simply by subtracting
+values from 1
+
+```{r}
+sim_tab <- mutate_at(dist_tab, vars(-Entity), function(x) 1-x)
+sim_tab[1:5, 1:6]
+```
+
 
 This can directly be saved after converting it to a table
 
 ```{r}
 write.csv(
-  dist_tab, file.path(params$output_folder, "jaccard_similarity_matrix.csv"),
+  sim_tab, file.path(params$output_folder, "jaccard_similarity_matrix.csv"),
   row.names=FALSE
 )
 ```
@@ -113,7 +120,7 @@ write.csv(
 Perhaps a better means of data representation is a long format
 
 ```{r}
-dist_tab %>%
+simt_tab %>%
   pivot_longer(-Entity, values_to="Similarity", names_to="Pair") %>%
   filter(Entity != Pair) %>%
   write.csv(
@@ -133,6 +140,7 @@ umap_coords <- distmat %>%
   .$layout %>%
   data.frame() %>%
   rownames_to_column("Entity")
+
 head(umap_coords)
 ```
 
@@ -152,6 +160,8 @@ tsne_coords <- distmat %>%
   tsne() %>%
   data.frame() %>%
   mutate(Entity = dist_tab$Entity)
+
+head(tsne_coords)
 ```
 
 ```{r}
