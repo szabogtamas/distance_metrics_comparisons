@@ -29,12 +29,6 @@ scriptOptionalArgs <- list(
   )
 )
 
-for (pk in c("tidyr", "dplyr")){
-  if(!(pk %in% (.packages()))){
-    library(pk, character.only=TRUE)
-  }
-}
-
 
 #' The main function of the script, executed only if called from command line.
 #' Calls subfunctions according to supplied command line arguments.
