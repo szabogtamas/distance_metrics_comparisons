@@ -51,7 +51,7 @@ main <- function(opt){
   jaccard_sims <- calculate_jaccard(main_mat)
 
   cat("Saving similarity matrix\n")
-  write.csv(jaccard_sims, opt$outPath)
+  write.csv(jaccard_sims, opt$outPath, row.names=FALSE)
 
   invisible(NULL)
 }
@@ -100,14 +100,24 @@ standardize_input_data <- function(input_path, data_format){
 #' @return matrix.
 calculate_jaccard <- function(hot_matrix){
   hot_matrix %>%
+    dist(method="binary") %>%
     {1 - .} %>%
     as.matrix() %>%
     data.frame() %>%
     rownames_to_column("Entity")
 }
 
+if (!require("dplyr")) install.packages("dplyr")
+library(dplyr)
+if (!require("tidyr")) install.packages("tidyr")
+library(tidyr)
+if (!require("tibble")) install.packages("tibble")
+library(tibble)
 
 ####    Intarfacing with command line below, nothing related to the main functionality    ####
+
+if (!require("optparse")) install.packages("optparse")
+library(optparse)
 
 if (!interactive()) {
   
@@ -131,7 +141,7 @@ if (!interactive()) {
   # Add custom arguments to parser
   for (arg_def in list(scriptMandatoryArgs, scriptOptionalArgs)){
     for (arg_name in names(arg_def)){
-      rg <- al[[arg_name]]
+      rg <- arg_def[[arg_name]]
       arg_alias <- paste0("--", arg_name)
       if ("abbr" %in% names(rg) ) {
         arg_alias <- c(rg[["abbr"]], arg_alias)
