@@ -8,7 +8,8 @@ RUN sudo apt-get update -y && \
     sudo apt-get install -y libbz2-dev && \
     sudo apt-get install -y liblzma-dev
 
-RUN pip3 install numpy && \
+RUN pip3 install jupytext && \
+    pip3 install numpy && \
     pip3 install pandas && \
     pip3 install matplotlib && \
     pip3 install seaborn && \
