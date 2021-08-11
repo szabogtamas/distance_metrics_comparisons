@@ -58,3 +58,8 @@ scikit_distances.head()
 ```
 
 ## Visualize results
+
+```python
+U = umap.UMAP(metric='precomputed')
+umap_coords = U.fit_transform(scikit_distances)
+```
