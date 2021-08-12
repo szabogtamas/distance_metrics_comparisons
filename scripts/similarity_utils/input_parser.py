@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser(
     description = "Parse and preprocess input data for Jaccard calculation."
 )
 parser.add_argument(  
-    "input_path"
+    "input_path",
     type = str,
     help = "Path to input data"
 )
