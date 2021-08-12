@@ -6,7 +6,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.11.3
+      jupytext_version: 1.11.4
   kernelspec:
     display_name: Python 3
     language: python
@@ -18,13 +18,15 @@ jupyter:
 ## Setup
 
 ```python
-from matplotlib import pyplot as plt
-import pandas as pd
-import scipy
-from scipy.spatial import distance as scd
+import sys
 
+import scipy
+import umap
+import pandas as pd
+
+from scipy.spatial import distance as scd
 from sklearn import metrics as skm
-import sklearn as sk
+from matplotlib import pyplot as plt
 ```
 
 ```python
@@ -36,7 +38,7 @@ import similarity_utils as su
 ## Parse input
 
 ```python
-main_df = suinput_parser.read_input("/home/rstudio/local_files/example_data/pseudo_tabular_format.csv")
+main_df = su.input_parser.read_input("/home/rstudio/local_files/example_data/pseudo_tabular_format.csv")
 main_df.head()
 ```
 
