@@ -83,20 +83,22 @@ def binarize_long(
 
 
 def read_input(
-    input_martix: pd.DataFrame,
+    input_path: str,
     format_spec: str = "pseudo_tab"
 ) -> pd.DataFrame:
     """
     A wrapper around Jaccard calculator functions helping to use the appropriate approach.
     ----------
-    input_martix
-        Pseudo-tabular, long or binarized matrix format.
+    input_path
+        Pseudo-tabular, long or binarized matrix format input data.
     format_spec
         Specifies the format of input data. One of ["pseudo_tab", "long", "binary"]
     Returns
     -------
     The binarized matrix.
     """
+    
+    input_martix = pd.read_csv(input_path)
 
     if format_spec == "binary":
         return input_martix
@@ -131,8 +133,7 @@ def main(
     None
     """
     
-    category_links = pd.read_csv(input_path)
-    category_mat = read_input(category_links, format_spec=format_spec)
+    category_mat = read_input(input_path, format_spec=format_spec)
     category_mat.to_csv(output_path, index=False)
     return
 
