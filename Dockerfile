@@ -9,7 +9,6 @@ RUN sudo apt-get update -y && \
     sudo apt-get install -y liblzma-dev
 
 RUN pip3 install jupytext && \
-    pip3 install sphinx && \
     pip3 install numpy && \
     pip3 install pandas && \
     pip3 install matplotlib && \
