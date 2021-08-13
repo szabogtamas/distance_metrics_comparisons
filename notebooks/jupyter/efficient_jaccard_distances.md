@@ -64,13 +64,25 @@ loop_distances.head()
 ```
 
 ```python
+print_source(su.calculator.jaccard_loop)
+```
+
+```python
 %time pandas_distances = su.calculator.calculate_jaccard(main_df, "pandas")
 pandas_distances.head()
 ```
 
 ```python
+print_source(su.calculator.jaccard_pandas)
+```
+
+```python
 %time scikit_distances = su.calculator.calculate_jaccard(main_df)
 scikit_distances.head()
+```
+
+```python
+print_source(su.calculator.jaccard_scikit)
 ```
 
 ## Visualize results
