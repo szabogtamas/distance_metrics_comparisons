@@ -4,7 +4,10 @@ import argparse, sys
 import pandas as pd
 from scipy.spatial import distance as scd
 from sklearn import metrics as skm
-from input_parser import read_input
+try:
+    from input_parser import read_input
+except:
+    from .input_parser import read_input
 
 parser = argparse.ArgumentParser(
     description = "Calculate Jaccard distances with different approches."
