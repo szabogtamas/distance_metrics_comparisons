@@ -18,7 +18,7 @@ jupyter:
 ## Setup
 
 ```python
-import sys
+import sys, inspect
 
 import scipy
 import umap
@@ -36,6 +36,15 @@ import similarity_utils as su
 ```
 
 ## Parse input
+
+```python
+import inspect
+```
+
+```python
+lines = inspect.getsource(su.input_parser.read_input)
+print(lines)
+```
 
 ```python
 main_df = su.input_parser.read_input("/home/rstudio/local_files/example_data/pseudo_tabular_format.csv")
