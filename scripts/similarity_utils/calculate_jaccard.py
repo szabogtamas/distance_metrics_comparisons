@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import argparse
+import argparse, sys
 import pandas as pd
 from scipy.spatial import distance as scd
 from sklearn import metrics as skm
@@ -12,7 +12,8 @@ parser = argparse.ArgumentParser(
 parser.add_argument(  
     "-i",
     "--input_path",
-    type = str, required=True,
+    required=True,
+    type = str,
     help = "Path to input data"
 )
 parser.add_argument(  
@@ -36,7 +37,24 @@ parser.add_argument(
     type = argparse.FileType('w'),
     help = "Path to output file"
 )
-args = parser.parse_args()
+
+
+def dist_to_sim(
+    distance_martix: pd.DataFrame
+) -> pd.DataFrame:
+    """
+    Convert distance matrix to similarity dataframe.
+    ----------
+    distance_martix
+        A distance matrix produced by sklearn or scipy.
+    Returns
+    -------
+    The similarity matrix.
+    """
+    
+    sim_mat = pd.DataFrame(distance_martix)
+
+    return 1 - sim_mat
 
 
 def jaccard_scikit(
@@ -49,15 +67,14 @@ def jaccard_scikit(
         A binarized matrix with category labels in columns and entities in rows.
     Returns
     -------
-    The similarity matrix.
+    The distance matrix.
     """
 
-    sim_mat = skm.pairwise.pairwise_distances(
+    dist_mat = skm.pairwise.pairwise_distances(
         binarized_martix.to_numpy(), metric="jaccard"
     )
-    sim_mat = pd.DataFrame(sim_mat)
 
-    return 1 - sim_mat
+    return dist_mat
 
 
 def jaccard_pandas(
@@ -70,13 +87,12 @@ def jaccard_pandas(
         A binarized matrix with category labels in columns and entities in rows.
     Returns
     -------
-    The similarity matrix.
+    The distance matrix.
     """
 
-    sim_mat = binarized_martix.corr(method=skm.pairwise.distance.jaccard)
-    sim_mat = pd.DataFrame(sim_mat)
+    dist_mat = binarized_martix.corr(method=skm.pairwise.distance.jaccard)
 
-    return 1 - sim_mat
+    return dist_mat
 
 
 def jaccard_loop(
@@ -89,25 +105,24 @@ def jaccard_loop(
         A binarized matrix with category labels in columns and entities in rows.
     Returns
     -------
-    The similarity matrix.
+    The distance matrix.
     """
 
-    sim_mat = list()
+    dist_mat = list()
     instances = list(binarized_martix.columns)
 
     for n1 in instances:
         for n2 in instances:
             ds = scd.jaccard(binarized_martix[n1], binarized_martix[n2])
             distances.append((n1, n2, ds))
-
-    sim_mat = pd.DataFrame(sim_mat)
-
-    return 1 - sim_mat
+    
+    return dist_mat
 
 
 def calculate_jaccard(
     binarized_martix: pd.DataFrame,
-    approach: str = "scikit"
+    approach: str = "scikit",
+    convert_similarity: bool = False
 ) -> pd.DataFrame:
     """
     A wrapper around Jaccard calculator functions helping to use the appropriate approach.
@@ -118,7 +133,7 @@ def calculate_jaccard(
         Which approach to use for calculations. One of ["scikit", "loop", "pandas"]
     Returns
     -------
-    The similarity matrix.
+    The distance / similarity matrix.
     """
 
     fun_router = dict(
@@ -130,9 +145,11 @@ def calculate_jaccard(
     if approach not in fun_router:
         approach = "scikit"
 
-    sim_mat = fun_router[aproach](binarized_martix)
-
-    return sim_mat
+    dist_mat = fun_router[aproach](binarized_martix)
+    if convert_similarity:
+        return(dist_to_sim(dist_mat))
+    else:
+        return dist_mat
 
 
 def main(
@@ -158,10 +175,14 @@ def main(
     """
 
     scores = input_parser.read_input(input_path, format_spec=format_spec)
-    sim_mat = calculate_jaccard(scores, approach=approach)
-    sim_mat.write_csv(output_path)
+    sim_mat = calculate_jaccard(scores, approach=approach, convert_similarity=True)
+    sim_mat.to_csv(output_path)
     return
 
 
 if __name__ == '__main__':
-    main(**args)
+    args = parser.parse_args()
+    main(**args.__dict__)
+else:
+    del parser
+    del argparse

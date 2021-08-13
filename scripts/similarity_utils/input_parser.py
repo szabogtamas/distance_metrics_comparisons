@@ -1,15 +1,24 @@
 #!/usr/bin/python3
 
-import argparse
+import argparse, sys
 import pandas as pd
 
 parser = argparse.ArgumentParser(
     description = "Parse and preprocess input data for Jaccard calculation."
 )
 parser.add_argument(  
-    "input_path",
+    "-i",
+    "--input_path",
+    required=True,
     type = str,
     help = "Path to input data"
+)
+parser.add_argument(  
+    "-f",
+    "--format_spec",
+    default = "pseudo_tab",
+    type = str,
+    help = "Format of input data"
 )
 parser.add_argument(
     "--output_path",
@@ -17,7 +26,6 @@ parser.add_argument(
     type = argparse.FileType('w'),
     help = "Path to output file"
 )
-args = parser.parse_args()
 
 
 def binarize_tabular(
@@ -122,12 +130,16 @@ def main(
     -------
     None
     """
-
+    
     category_links = pd.read_csv(input_path)
     category_mat = read_input(category_links, format_spec=format_spec)
-    category_mat.write_csv(output_path)
+    category_mat.to_csv(output_path, index=False)
     return
 
 
 if __name__ == '__main__':
-    main()
+    args = parser.parse_args()
+    main(**args.__dict__)
+else:
+    del parser
+    del argparse
