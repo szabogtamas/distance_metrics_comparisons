@@ -4,7 +4,7 @@ import argparse, sys
 import pandas as pd
 from scipy.spatial import distance as scd
 from sklearn import metrics as skm
-from . import input_parser
+from input_parser import read_input
 
 parser = argparse.ArgumentParser(
     description = "Calculate Jaccard distances with different approches."
@@ -145,7 +145,7 @@ def calculate_jaccard(
     if approach not in fun_router:
         approach = "scikit"
 
-    dist_mat = fun_router[aproach](binarized_martix)
+    dist_mat = fun_router[approach](binarized_martix)
     if convert_similarity:
         return(dist_to_sim(dist_mat))
     else:
@@ -174,7 +174,7 @@ def main(
     None
     """
 
-    scores = input_parser.read_input(input_path, format_spec=format_spec)
+    scores = read_input(input_path, format_spec=format_spec)
     sim_mat = calculate_jaccard(scores, approach=approach, convert_similarity=True)
     sim_mat.to_csv(output_path)
     return
