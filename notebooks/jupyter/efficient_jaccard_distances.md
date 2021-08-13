@@ -35,36 +35,41 @@ sys.path.append("/usr/local/dev_scripts")
 import similarity_utils as su
 ```
 
+```python
+# Small helper to show source
+
+def print_source(fun):
+    lines = inspect.getsource(fun)
+    print(lines)
+    return
+```
+
+```python
+main_input = "/home/rstudio/local_files/example_data/pseudo_tabular_format.csv"
+main_input = "/home/rstudio/local_files/notebooks/jupyter/similarity_utils/long_format_category_labels.csv"
+```
+
 ## Parse input
 
 ```python
-import inspect
-```
-
-```python
-lines = inspect.getsource(su.input_parser.read_input)
-print(lines)
-```
-
-```python
-main_df = su.input_parser.read_input("/home/rstudio/local_files/example_data/pseudo_tabular_format.csv")
+main_df = su.input_parser.read_input(main_input, format_spec="long")
 main_df.head()
 ```
 
 ## Calculate distances
 
 ```python
-%time loop_distances = calculate_jaccard(main_df, "loop")
+%time loop_distances = su.calculator.calculate_jaccard(main_df, "loop")
 loop_distances.head()
 ```
 
 ```python
-%time pandas_distances = calculate_jaccard(main_df, "pandas")
+%time pandas_distances = su.calculator.calculate_jaccard(main_df, "pandas")
 pandas_distances.head()
 ```
 
 ```python
-%time scikit_distances = calculate_jaccard(main_df)
+%time scikit_distances = su.calculator.calculate_jaccard(main_df)
 scikit_distances.head()
 ```
 
