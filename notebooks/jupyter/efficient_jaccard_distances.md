@@ -41,13 +41,22 @@ def print_source(fun):
 
 ```python
 main_input = "/home/rstudio/local_files/example_data/pseudo_tabular_format.csv"
+main_input = "/home/rstudio/local_files/notebooks/jupyter/similarity_utils/long_format_category_labels.csv"
 ```
 
 ## Parse input
 
 ```python
-main_df = su.input_parser.read_input(main_input)
+main_df = su.input_parser.read_input(main_input, format_spec="long")
 main_df.head()
+```
+
+For the sake of demonstration, limit size of input data to first ten entities.
+
+```python
+top_ent = main_df["Entity"].unique().tolist()[:10]
+limited_df = main_df.loc[main_df["Entity"].isin(top_ent)]
+limited_df.shape
 ```
 
 ## Calculate distances
