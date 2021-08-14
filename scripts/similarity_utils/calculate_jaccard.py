@@ -117,7 +117,7 @@ def jaccard_loop(
     for n1 in instances:
         for n2 in instances:
             ds = scd.jaccard(binarized_martix[n1], binarized_martix[n2])
-            distances.append((n1, n2, ds))
+            dist_mat.append((n1, n2, ds))
     
     return dist_mat
 
