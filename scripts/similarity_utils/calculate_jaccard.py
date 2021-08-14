@@ -1,6 +1,7 @@
 #!/usr/bin/env/python3
 
 import argparse, sys
+import numpy as np
 import pandas as pd
 from scipy.spatial import distance as scd
 from sklearn import metrics as skm
@@ -119,7 +120,7 @@ def jaccard_loop(
             ds = scd.jaccard(binarized_martix[n1], binarized_martix[n2])
             dist_mat.append((n1, n2, ds))
     
-    return dist_mat
+    return np.arraydist_mat)
 
 
 def calculate_jaccard(
