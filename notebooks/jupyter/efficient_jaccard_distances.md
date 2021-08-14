@@ -20,6 +20,7 @@ jupyter:
 ```python
 import sys, inspect
 import umap
+from sklearn.manifold import TSNE
 from matplotlib import pyplot as plt
 ```
 
