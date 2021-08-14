@@ -19,13 +19,7 @@ jupyter:
 
 ```python
 import sys, inspect
-
-import scipy
 import umap
-import pandas as pd
-
-from scipy.spatial import distance as scd
-from sklearn import metrics as skm
 from matplotlib import pyplot as plt
 ```
 
@@ -33,6 +27,7 @@ from matplotlib import pyplot as plt
 sys.path.append("/usr/local/dev_scripts")
 
 import similarity_utils as su
+dist_to_sim = su.calculator.dist_to_sim 
 ```
 
 ```python
@@ -46,21 +41,21 @@ def print_source(fun):
 
 ```python
 main_input = "/home/rstudio/local_files/example_data/pseudo_tabular_format.csv"
-main_input = "/home/rstudio/local_files/notebooks/jupyter/similarity_utils/long_format_category_labels.csv"
 ```
 
 ## Parse input
 
 ```python
-main_df = su.input_parser.read_input(main_input, format_spec="long")
+main_df = su.input_parser.read_input(main_input)
 main_df.head()
 ```
 
 ## Calculate distances
 
 ```python
-%time loop_distances = su.calculator.calculate_jaccard(main_df, "loop")
-loop_distances.head()
+%%time
+loop_distances = su.calculator.calculate_jaccard(main_df, "loop")
+dist_to_sim(loop_distances).head()
 ```
 
 ```python
@@ -68,8 +63,9 @@ print_source(su.calculator.jaccard_loop)
 ```
 
 ```python
-%time pandas_distances = su.calculator.calculate_jaccard(main_df, "pandas")
-pandas_distances.head()
+%%time
+pandas_distances = su.calculator.calculate_jaccard(main_df, "pandas")
+dist_to_sim(pandas_distances).head()
 ```
 
 ```python
@@ -77,8 +73,9 @@ print_source(su.calculator.jaccard_pandas)
 ```
 
 ```python
-%time scikit_distances = su.calculator.calculate_jaccard(main_df)
-scikit_distances.head()
+%%time
+scikit_distances = su.calculator.calculate_jaccard(main_df)
+dist_to_sim(scikit_distances).head()
 ```
 
 ```python
@@ -90,4 +87,8 @@ print_source(su.calculator.jaccard_scikit)
 ```python
 U = umap.UMAP(metric='precomputed')
 umap_coords = U.fit_transform(scikit_distances)
+```
+
+```python
+
 ```
