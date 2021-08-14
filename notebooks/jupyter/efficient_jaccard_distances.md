@@ -95,8 +95,12 @@ print_source(su.calculator.jaccard_scikit)
 ## Visualize results
 
 ```python
-U = umap.UMAP(metric='precomputed')
+U = umap.UMAP(metric="precomputed")
 umap_coords = U.fit_transform(scikit_distances)
+```
+
+```python
+X_embedded = TSNE(n_components=2, metric="precomputed").fit_transform(scikit_distances)
 ```
 
 ```python
