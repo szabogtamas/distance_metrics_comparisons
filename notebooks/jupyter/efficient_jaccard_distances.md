@@ -63,7 +63,7 @@ limited_df.shape
 
 ```python
 %%time
-loop_distances = su.calculator.calculate_jaccard(main_df, "loop")
+loop_distances = su.calculator.calculate_jaccard(limited_df, "loop")
 dist_to_sim(loop_distances).head()
 ```
 
@@ -73,7 +73,7 @@ print_source(su.calculator.jaccard_loop)
 
 ```python
 %%time
-pandas_distances = su.calculator.calculate_jaccard(main_df, "pandas")
+pandas_distances = su.calculator.calculate_jaccard(limited_df, "pandas")
 dist_to_sim(pandas_distances).head()
 ```
 
@@ -83,7 +83,7 @@ print_source(su.calculator.jaccard_pandas)
 
 ```python
 %%time
-scikit_distances = su.calculator.calculate_jaccard(main_df)
+scikit_distances = su.calculator.calculate_jaccard(limited_df)
 dist_to_sim(scikit_distances).head()
 ```
 
