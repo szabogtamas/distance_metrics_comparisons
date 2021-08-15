@@ -63,11 +63,11 @@ def dist_to_sim(
     sim_mat = pd.DataFrame(distance_martix)
     N = sim_mat.shape[1]
     
-    if len(labels) != N:
-        raise ValueError("The number of labels given does not match the number of entities in matrix")
-    
     if labels is None:
         labels = ["e_" + str(x) for x in range(0, N)]
+    
+    if len(labels) != N:
+        raise ValueError("The number of labels given does not match the number of entities in matrix")
     
     sim_mat.columns = labels
     sim_mat["Entity"] = labels
