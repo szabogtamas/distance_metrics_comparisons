@@ -46,6 +46,13 @@ main_input = "/home/rstudio/local_files/example_data/pseudo_tabular_format.csv"
 
 ## Parse input
 
+
+The key step to making distance calculation more efficient is to convert data into a more machine-friendly format (a one-hot-encoded matrix). An example function that can achieve this looks like the one below:
+
+```python
+print_source(su.input_parser.binarize_tabular)
+```
+
 ```python
 main_df = su.input_parser.read_input(main_input)
 main_df.head()
