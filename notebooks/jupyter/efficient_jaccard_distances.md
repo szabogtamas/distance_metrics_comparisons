@@ -41,7 +41,7 @@ def print_source(fun):
 ```
 
 ```python
-main_input = "/home/rstudio/local_files/example_data/pseudo_tabular_format.csv"
+main_input = "/usr/local/example_data/pseudo_tabular_format.csv"
 ```
 
 ## Parse input
