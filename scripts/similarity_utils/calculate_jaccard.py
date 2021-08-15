@@ -127,15 +127,21 @@ def jaccard_loop(
     The distance matrix.
     """
 
-    dist_mat = list()
-    instances = list(binarized_martix.columns)
+    distances = list()
+    instances = binarized_martix.index.to_list()
+    tm = binarized_martix.T
 
     for n1 in instances:
         for n2 in instances:
-            ds = scd.jaccard(binarized_martix[n1], binarized_martix[n2])
-            dist_mat.append((n1, n2, ds))
+            ds = scd.jaccard(tm[n1], tm[n2])
+            distances.append((n1, n2, ds))
     
-    return np.array(dist_mat)
+    dist_mat = pd.DataFrame(distances)
+    dist_mat.columns = ["e1", "e2", "val"]
+    dist_mat = dist_mat.pivot(index="e1", columns="e2").to_numpy()
+    
+    return dist_mat
+
 
 
 def calculate_jaccard(
