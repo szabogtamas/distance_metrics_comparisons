@@ -74,12 +74,12 @@ def binarize_long(
     The binarized matrix.
     """
 
-    in_tab = in_tab.iloc[:,0:2]
-    in_tab.columns = ["Entity", "Label"]
-    in_tab["val"] = 1
-    in_tab.pivot(index="Entity", columns="Label").fillna(0)
+    tmp_df = in_tab.iloc[:,0:2]
+    tmp_df.columns = ["Entity", "Label"]
+    tmp_df["val"] = 1
+    tmp_df = tmp_df.pivot(index="Entity", columns="Label").fillna(0)
 
-    return in_tab
+    return tmp_df
 
 
 def read_input(
