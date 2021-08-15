@@ -42,13 +42,12 @@ def print_source(fun):
 
 ```python
 main_input = "/home/rstudio/local_files/example_data/pseudo_tabular_format.csv"
-main_input = "/home/rstudio/local_files/notebooks/jupyter/similarity_utils/long_format_category_labels.csv"
 ```
 
 ## Parse input
 
 ```python
-main_df = su.input_parser.read_input(main_input, format_spec="long")
+main_df = su.input_parser.read_input(main_input)
 main_df.head()
 ```
 
