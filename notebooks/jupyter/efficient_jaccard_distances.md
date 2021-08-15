@@ -22,6 +22,8 @@ import sys, inspect
 import umap
 from sklearn.manifold import TSNE
 from matplotlib import pyplot as plt
+import pandas as pd
+import plotly.express as px
 ```
 
 ```python
@@ -42,6 +44,7 @@ def print_source(fun):
 
 ```python
 main_input = "/usr/local/example_data/pseudo_tabular_format.csv"
+#main_input = "/usr/local/example_data/long_format_category_labels.csv"
 ```
 
 ## Parse input
@@ -54,7 +57,7 @@ print_source(su.input_parser.binarize_tabular)
 ```
 
 ```python
-main_df = su.input_parser.read_input(main_input)
+main_df = su.input_parser.read_input(main_input, format_spec="long")
 main_df.head()
 ```
 
@@ -84,7 +87,7 @@ print_source(su.calculator.jaccard_loop)
 ```python
 %%time
 pandas_distances = su.calculator.calculate_jaccard(limited_df, "pandas")
-dist_to_sim(pandas_distances).head()
+dist_to_sim(pandas_distances, labels=dist_labels).head()
 ```
 
 ```python
@@ -115,7 +118,28 @@ fig, ax = plt.subplots()
 ax.scatter(tsne_coords[:,0], tsne_coords[:,1])
 ```
 
+```python
+tsne_df = pd.DataFrame(tsne_coords)
+tsne_df.columns = ["Dim_1", "Dim_2"]
+tsne_df["Entity"] = limited_df.index
+
+fig = px.scatter(
+    tsne_df, x="Dim_1", y="Dim_2", hover_data=["Entity"],
+    title="A tSNE plot of entities based on similarity of category list",
+    width=800, height=800
+)
+fig.show()
+```
+
 An alternative method (and competitor) is umap
+
+```python
+
+```
+
+```python
+
+```
 
 ```python
 umap_coords = umap.UMAP(metric="precomputed").fit_transform(scikit_distances)
@@ -124,4 +148,21 @@ umap_coords = umap.UMAP(metric="precomputed").fit_transform(scikit_distances)
 ```python
 fig, ax = plt.subplots()
 ax.scatter(umap_coords[:,0], umap_coords[:,1])
+```
+
+```python
+umap_df = pd.DataFrame(umap_coords)
+umap_df.columns = ["Dim_1", "Dim_2"]
+umap_df["Entity"] = limited_df.index
+
+fig = px.scatter(
+    umap_df, x="Dim_1", y="Dim_2", hover_data=["Entity"],
+    title="A umap plot of entities based on similarity of category list",
+    width=800, height=800
+)
+fig.show()
+```
+
+```python
+
 ```
