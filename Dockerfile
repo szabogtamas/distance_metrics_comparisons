@@ -13,9 +13,11 @@ RUN pip3 install jupytext && \
     pip3 install pandas && \
     pip3 install matplotlib && \
     pip3 install seaborn && \
+    pip3 install plotly_express && \
     pip3 install scipy && \
     pip3 install scikit-learn && \
     pip3 install umap-learn
+
 RUN install2.r --error \
     --deps TRUE \
     devtools \
