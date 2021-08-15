@@ -60,6 +60,8 @@ def binarize_tabular(
     for k, v in d.items():
         binarized_data[k] = [1 if e in v else 0 for e in all_items]
     binarized_data = pd.DataFrame(binarized_data)
+    binarized_data["Categories"] = all_items
+    binarized_data = binarized_data.set_index("Categories").T
 
     return binarized_data
 
