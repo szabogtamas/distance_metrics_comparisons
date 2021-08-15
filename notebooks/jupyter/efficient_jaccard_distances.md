@@ -103,15 +103,25 @@ print_source(su.calculator.jaccard_scikit)
 
 ## Visualize results
 
+
+A dimension reduction apprach commonly used to visualize single-cell gene expression datasets is tSNE. This can be adapted to this particular problem.
+
 ```python
-U = umap.UMAP(metric="precomputed")
-umap_coords = U.fit_transform(scikit_distances)
+tsne_coords = TSNE(n_components=2, metric="precomputed").fit_transform(scikit_distances)
 ```
 
 ```python
-X_embedded = TSNE(n_components=2, metric="precomputed").fit_transform(scikit_distances)
+fig, ax = plt.subplots()
+ax.scatter(tsne_coords[:,0], tsne_coords[:,1])
+```
+
+An alternative method (and competitor) is umap
+
+```python
+umap_coords = umap.UMAP(metric="precomputed").fit_transform(scikit_distances)
 ```
 
 ```python
-
+fig, ax = plt.subplots()
+ax.scatter(umap_coords[:,0], umap_coords[:,1])
 ```
