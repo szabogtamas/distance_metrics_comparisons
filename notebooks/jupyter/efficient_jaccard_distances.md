@@ -61,8 +61,12 @@ main_df.head()
 For the sake of demonstration, limit size of input data to first ten entities.
 
 ```python
-limited_df = main_df.iloc[0:10, :]
+limited_df = main_df.iloc[0:100, :]
 limited_df.shape
+```
+
+```python
+dist_labels = limited_df.index.to_list()
 ```
 
 ## Calculate distances
@@ -70,7 +74,7 @@ limited_df.shape
 ```python
 %%time
 loop_distances = su.calculator.calculate_jaccard(limited_df, "loop")
-dist_to_sim(loop_distances).head()
+dist_to_sim(loop_distances, labels=dist_labels).head()
 ```
 
 ```python
@@ -90,7 +94,7 @@ print_source(su.calculator.jaccard_pandas)
 ```python
 %%time
 scikit_distances = su.calculator.calculate_jaccard(limited_df)
-dist_to_sim(scikit_distances).head()
+dist_to_sim(scikit_distances, labels=dist_labels).head()
 ```
 
 ```python
