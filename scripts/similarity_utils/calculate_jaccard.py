@@ -3,6 +3,7 @@
 import argparse, sys
 import numpy as np
 import pandas as pd
+from typing import Union
 from scipy.spatial import distance as scd
 from sklearn import metrics as skm
 try:
@@ -44,19 +45,33 @@ parser.add_argument(
 
 
 def dist_to_sim(
-    distance_martix: pd.DataFrame
+    distance_martix: pd.DataFrame,
+    labels: Union[None, list, tuple, pd.Series] = None
 ) -> pd.DataFrame:
     """
     Convert distance matrix to similarity dataframe.
     ----------
     distance_martix
         A distance matrix produced by sklearn or scipy.
+    labels
+        Entity labels to be shown.
     Returns
     -------
     The similarity matrix.
     """
     
     sim_mat = pd.DataFrame(distance_martix)
+    N = sim_mat.shape[1]
+    
+    if len(labels) != N:
+        raise ValueError("The number of labels given does not match the number of entities in matrix")
+    
+    if labels is None:
+        labels = ["e_" + str(x) for x in range(0, N)]
+    
+    sim_mat.columns = labels
+    sim_mat["Entity"] = labels
+    sim_mat = sim_mat.set_index("Entity")
 
     return 1 - sim_mat
 
