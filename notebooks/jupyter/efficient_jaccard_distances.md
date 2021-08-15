@@ -44,7 +44,6 @@ def print_source(fun):
 
 ```python
 main_input = "/usr/local/example_data/pseudo_tabular_format.csv"
-#main_input = "/usr/local/example_data/long_format_category_labels.csv"
 ```
 
 ## Parse input
@@ -57,7 +56,7 @@ print_source(su.input_parser.binarize_tabular)
 ```
 
 ```python
-main_df = su.input_parser.read_input(main_input, format_spec="long")
+main_df = su.input_parser.read_input(main_input)
 main_df.head()
 ```
 
@@ -134,14 +133,6 @@ fig.show()
 An alternative method (and competitor) is umap
 
 ```python
-
-```
-
-```python
-
-```
-
-```python
 umap_coords = umap.UMAP(metric="precomputed").fit_transform(scikit_distances)
 ```
 
@@ -161,8 +152,4 @@ fig = px.scatter(
     width=800, height=800
 )
 fig.show()
-```
-
-```python
-
 ```
