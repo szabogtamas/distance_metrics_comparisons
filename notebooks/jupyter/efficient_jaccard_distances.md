@@ -61,8 +61,7 @@ main_df.head()
 For the sake of demonstration, limit size of input data to first ten entities.
 
 ```python
-top_ent = main_df["Entity"].unique().tolist()[:10]
-limited_df = main_df.loc[main_df["Entity"].isin(top_ent)]
+limited_df = main_df.iloc[0:10, :]
 limited_df.shape
 ```
 
