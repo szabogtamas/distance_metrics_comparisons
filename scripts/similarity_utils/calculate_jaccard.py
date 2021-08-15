@@ -45,7 +45,7 @@ parser.add_argument(
 
 
 def dist_to_sim(
-    distance_martix: pd.DataFrame,
+    distance_martix: np.array,
     labels: Union[None, list, tuple, pd.Series] = None
 ) -> pd.DataFrame:
     """
@@ -78,7 +78,7 @@ def dist_to_sim(
 
 def jaccard_scikit(
     binarized_martix: pd.DataFrame
-) -> pd.DataFrame:
+) -> np.array:
     """
     The native scikit function to calculate Jaccard similarity.
     ----------
@@ -98,7 +98,7 @@ def jaccard_scikit(
 
 def jaccard_pandas(
     binarized_martix: pd.DataFrame
-) -> pd.DataFrame:
+) -> np.array:
     """
     Hijacking the pairwise correlation tool of pandas to calculate jaccard score.
     ----------
@@ -109,14 +109,15 @@ def jaccard_pandas(
     The distance matrix.
     """
 
-    dist_mat = binarized_martix.corr(method=skm.pairwise.distance.jaccard)
+    dist_mat = binarized_martix.T.corr(method=skm.pairwise.distance.jaccard).to_numpy()
+    np.fill_diagonal(dist_mat, 0)
 
     return dist_mat
 
 
 def jaccard_loop(
     binarized_martix: pd.DataFrame
-) -> pd.DataFrame:
+) -> np.array:
     """
     A simple and non-efficient function calculating Jaccard similarity using for loops.
     ----------
@@ -141,7 +142,6 @@ def jaccard_loop(
     dist_mat = dist_mat.pivot(index="e1", columns="e2").to_numpy()
     
     return dist_mat
-
 
 
 def calculate_jaccard(
