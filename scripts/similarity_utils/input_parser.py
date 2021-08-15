@@ -3,6 +3,9 @@
 import argparse, sys
 import pandas as pd
 
+pd.options.mode.chained_assignment = None
+
+
 parser = argparse.ArgumentParser(
     description = "Parse and preprocess input data for Jaccard calculation."
 )
