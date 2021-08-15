@@ -120,7 +120,7 @@ def jaccard_loop(
             ds = scd.jaccard(binarized_martix[n1], binarized_martix[n2])
             dist_mat.append((n1, n2, ds))
     
-    return np.arraydist_mat)
+    return np.array(dist_mat)
 
 
 def calculate_jaccard(
